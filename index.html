@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="nl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Trance Vinyl Radar | 90s & 00s Collector Engine</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        trance: {
+                            900: '#070a14',
+                            800: '#0d1326',
+                            700: '#17203d',
+                            cyan: '#00f0ff',
+                            pink: '#ff007f',
+                            purple: '#8a2be2',
+                            gold: '#ffb703'
+                        }
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 15px rgba(0, 240, 255, 0.3)',
+                        'neon-pink': '0 0 15px rgba(255, 0, 127, 0.3)',
+                        'glow-lg': '0 0 30px rgba(0, 240, 255, 0.2)'
+                    },
+                    animation: {
+                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'radar-sweep': 'radar 2s linear infinite'
+                    },
+                    keyframes: {
+                        radar: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070a14;
+            color: #e2e8f0;
+        }
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070a14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #17203d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-trance-cyan selection:text-black">
+
+    <!-- TOP HEADER / NAVBAR -->
+    <header class="sticky top-0 z-40 bg-trance-900/90 backdrop-blur-md border-b border-trance-cyan/20 px-4 lg:px-8 py-3 transition-all">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-3">
+                <div class="relative flex items-center justify-center">
+                    <!-- Spinning Vinyl Record Icon -->
+                    <div class="w-10 h-10 rounded-full bg-black border-2 border-trance-cyan flex items-center justify-center shadow-neon-cyan animate-spin-slow">
+                        <div class="w-4 h-4 rounded-full bg-trance-pink border border-white flex items-center justify-center">
+                            <div class="w-1 h-1 rounded-full bg-white"></div>
+                        </div>
+                    </div>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-trance-cyan opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-trance-cyan"></span>
+                    </span>
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-extrabold text-xl sm:text-2xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-trance-cyan via-white to-trance-pink">
+                        TRANCE<span class="text-trance-cyan">.RADAR</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 flex items-center gap-1.5">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                        90s & 00s Vinyl Scanner &bull; Max €25
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
+                <button onclick="triggerRadarScan()" id="scanBtn" class="flex-1 sm:flex-initial bg-gradient-to-r from-trance-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-orbitron font-bold py-2 px-4 rounded-xl shadow-neon-cyan transition-all transform active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm">
+                    <i class="fa-solid font-bold fa-radar animate-spin"></i>
+                    <span>RADAR SCANNEN</span>
+                </button>
+
+                <button onclick="openModal('addDealModal')" class="bg-trance-800 hover:bg-trance-700 text-trance-cyan border border-trance-cyan/40 p-2 sm:px-3 sm:py-2 rounded-xl transition flex items-center gap-2 text-xs sm:text-sm font-semibold">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="hidden md:inline">Deal Toevoegen</span>
+                </button>
+
+                <button onclick="openModal('settingsModal')" class="bg-trance-800 hover:bg-trance-700 text-slate-300 border border-slate-700 p-2 sm:px-3 sm:py-2 rounded-xl transition text-xs sm:text-sm" title="Instellingen">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+
+                <button onclick="openModal('renderGuideModal')" class="bg-trance-pink/20 hover:bg-trance-pink/30 text-trance-pink border border-trance-pink/40 p-2 sm:px-3 sm:py-2 rounded-xl transition text-xs sm:text-sm font-semibold flex items-center gap-1" title="24/7 Gratis Online Zet Gids">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span class="hidden lg:inline">24/7 Cloud Host</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+        <!-- METRICS & STATS BAR -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-trance-800/80 border border-trance-700/60 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Gevonden Deals</p>
+                    <p id="statTotal" class="text-xl sm:text-2xl font-orbitron font-bold text-trance-cyan mt-1">0</p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-trance-cyan/10 border border-trance-cyan/30 flex items-center justify-center text-trance-cyan">
+                    <i class="fa-solid fa-record-vinyl text-lg"></i>
+                </div>
+            </div>
+
+            <div class="bg-trance-800/80 border border-trance-700/60 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Gemiddelde Prijs</p>
+                    <p id="statAvgPrice" class="text-xl sm:text-2xl font-orbitron font-bold text-emerald-400 mt-1">€0,00</p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <i class="fa-solid fa-tag text-lg"></i>
+                </div>
+            </div>
+
+            <div class="bg-trance-800/80 border border-trance-700/60 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Favorieten</p>
+                    <p id="statFavs" class="text-xl sm:text-2xl font-orbitron font-bold text-trance-gold mt-1">0</p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-trance-gold">
+                    <i class="fa-solid fa-star text-lg"></i>
+                </div>
+            </div>
+
+            <div class="bg-trance-800/80 border border-trance-700/60 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Laatste Scan</p>
+                    <p id="statLastScan" class="text-xs sm:text-sm font-orbitron font-bold text-slate-200 mt-2">Zojuist</p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-trance-pink/10 border border-trance-pink/30 flex items-center justify-center text-trance-pink">
+                    <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTERS AND CONTROL PANEL -->
+        <section class="bg-trance-800/90 border border-trance-700 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+            <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+                
+                <!-- Search Box -->
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Zoek op titel, artiest, label (bijv. System F, Tsunami, Airwave)..." class="w-full bg-trance-900 border border-trance-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-trance-cyan focus:ring-1 focus:ring-trance-cyan transition">
+                </div>
+
+                <!-- Platform Filter Dropdown -->
+                <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
+                    <select id="platformFilter" onchange="applyFilters()" class="bg-trance-900 border border-trance-700 rounded-xl px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-trance-cyan transition cursor-pointer">
+                        <option value="ALL">🌐 Alle Platformen</option>
+                        <option value="Marktplaats">🧡 Marktplaats</option>
+                        <option value="Discogs">🖤 Discogs Marketplace</option>
+                        <option value="eBay">💙 eBay</option>
+                        <option value="Catawiki">🇪🇺 Catawiki</option>
+                        <option value="Vinted">💚 Vinted</option>
+                        <option value="Platenzaak">📻 Platenzaak / Speciaalzaak</option>
+                    </select>
+
+                    <!-- Era / Decennium Filter -->
+                    <select id="eraFilter" onchange="applyFilters()" class="bg-trance-900 border border-trance-700 rounded-xl px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-trance-cyan transition cursor-pointer">
+                        <option value="ALL">🎶 Alle Jaren (90s & 00s)</option>
+                        <option value="90s">🎹 1990 - 1999 (Classic Era)</option>
+                        <option value="00s">⚡ 2000 - 2009 (Vocal & Tech Era)</option>
+                    </select>
+
+                    <!-- Favorites Only Toggle -->
+                    <button onclick="toggleFavFilter()" id="favFilterBtn" class="bg-trance-900 border border-trance-700 hover:border-trance-gold text-slate-300 px-4 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 whitespace-nowrap">
+                        <i id="favFilterIcon" class="fa-regular fa-star text-trance-gold"></i>
+                        <span>Alleen ⭐</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Artist Tags & Price Slider Row -->
+            <div class="pt-3 border-t border-trance-700/60 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+                
+                <!-- Popular Artist Quick Chips -->
+                <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                    <span class="text-slate-400 font-semibold mr-1">Snel-filter:</span>
+                    <button onclick="filterByArtist('')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Alles</button>
+                    <button onclick="filterByArtist('Ferry Corsten')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Ferry Corsten / System F</button>
+                    <button onclick="filterByArtist('Tiësto')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Tiësto / Gouryella</button>
+                    <button onclick="filterByArtist('Armin')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Armin van Buuren</button>
+                    <button onclick="filterByArtist('Rank 1')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Rank 1</button>
+                    <button onclick="filterByArtist('Push')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Push</button>
+                    <button onclick="filterByArtist('Chicane')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Chicane</button>
+                    <button onclick="filterByArtist('Energy 52')" class="chip bg-trance-700/50 hover:bg-trance-cyan/20 border border-trance-700 text-slate-300 px-2.5 py-1 rounded-lg transition">Energy 52</button>
+                </div>
+
+                <!-- Max Price Slider -->
+                <div class="flex items-center gap-3 w-full md:w-auto min-w-[220px] bg-trance-900/60 p-2 rounded-xl border border-trance-700/50">
+                    <label class="text-xs text-slate-400 whitespace-nowrap">Max Prijs:</label>
+                    <input type="range" id="priceRange" min="5" max="30" value="25" step="1" oninput="updatePriceLabel(this.value); applyFilters();" class="w-full accent-trance-cyan cursor-pointer">
+                    <span id="priceValue" class="text-sm font-orbitron font-bold text-trance-cyan min-w-[45px] text-right">€25</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VINYL LISTINGS GRID -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-orbitron font-bold text-lg text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-list-ul text-trance-cyan"></i>
+                    <span>Actieve Trance Parel Deals</span>
+                </h2>
+                <div class="text-xs text-slate-400" id="resultCount">Laden...</div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- Cards inject via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-16 bg-trance-800/40 border border-dashed border-trance-700 rounded-2xl p-8">
+                <div class="w-16 h-16 rounded-full bg-trance-700/50 text-trance-cyan flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <h3 class="font-orbitron font-bold text-lg text-slate-300 mb-2">Geen trance vinyl gevonden met deze filters</h3>
+                <p class="text-sm text-slate-400 max-w-md mx-auto mb-6">Probeer de max-prijs te verhogen, reset de filters of voer een nieuwe radar scan uit om nieuw aanbod binnen te halen.</p>
+                <button onclick="resetFilters()" class="bg-trance-700 hover:bg-trance-600 text-white font-medium text-xs px-4 py-2 rounded-xl transition">
+                    Filters Herstellen
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-trance-900 border-t border-trance-700/50 py-6 px-4 text-center text-xs text-slate-500 space-y-2">
+        <p>⚡ <strong>Trance Vinyl Radar Engine</strong> &bull; Gebouwd voor verzamelaars van 90s & 00s Trance Klassiekers op vinyl.</p>
+        <p>Inclusief Marktplaats, Discogs Marketplace, eBay, Vinted en Independent Record Stores.</p>
+    </footer>
+
+    <!-- SCANNING OVERLAY ANIMATION MODAL -->
+    <div id="scanOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex flex-col items-center justify-center hidden">
+        <div class="relative w-48 h-48 mb-6">
+            <!-- Radar sweep circles -->
+            <div class="absolute inset-0 rounded-full border-2 border-trance-cyan/30"></div>
+            <div class="absolute inset-4 rounded-full border border-trance-cyan/20"></div>
+            <div class="absolute inset-12 rounded-full border border-trance-cyan/20"></div>
+            <!-- Crosshairs -->
+            <div class="absolute top-0 bottom-0 left-1/2 border-l border-trance-cyan/30"></div>
+            <div class="absolute left-0 right-0 top-1/2 border-t border-trance-cyan/30"></div>
+            <!-- Rotating Sweep line -->
+            <div class="absolute inset-0 rounded-full animate-radar-sweep bg-[conic-gradient(from_0deg,transparent_0_300deg,rgba(0,240,255,0.4)_360deg)]"></div>
+            <!-- Vinyl in center -->
+            <div class="absolute inset-0 m-auto w-12 h-12 rounded-full bg-black border border-trance-pink flex items-center justify-center shadow-neon-pink">
+                <i class="fa-solid fa-record-vinyl text-trance-cyan animate-spin text-lg"></i>
+            </div>
+        </div>
+        <h3 class="font-orbitron font-bold text-xl text-trance-cyan tracking-widest mb-2 animate-pulse-fast">RADAR SCRAPING IN GANG...</h3>
+        <p id="scanStatusText" class="text-sm text-slate-400">Marktplaats API & Discogs Marketplace scannen...</p>
+    </div>
+
+    <!-- MODAL: DEAL TOEVOEGEN -->
+    <div id="addDealModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-trance-800 border border-trance-cyan/40 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('addDealModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="font-orbitron font-bold text-lg text-trance-cyan mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-plus-circle"></i>
+                Handmatig Vinyl Deal Toevoegen
+            </h3>
+            <form id="addDealForm" onsubmit="handleManualAdd(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Titel / Vinyl Naam *</label>
+                    <input type="text" id="addTitle" required placeholder="bijv. System F - Out Of The Blue (12 inch)" class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Artiest / Project *</label>
+                        <input type="text" id="addArtist" required placeholder="Ferry Corsten" class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Prijs (€) *</label>
+                        <input type="number" step="0.50" id="addPrice" max="25" required placeholder="14.50" class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Platform *</label>
+                        <select id="addPlatform" class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                            <option value="Marktplaats">Marktplaats</option>
+                            <option value="Discogs">Discogs</option>
+                            <option value="eBay">eBay</option>
+                            <option value="Vinted">Vinted</option>
+                            <option value="Catawiki">Catawiki</option>
+                            <option value="Platenzaak">Platenzaak</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Jaar van Uitgave</label>
+                        <input type="number" id="addYear" min="1990" max="2009" placeholder="1999" class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Directe Advertentie URL *</label>
+                    <input type="url" id="addUrl" required placeholder="https://www.marktplaats.nl/v/..." class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Reden om in de gaten te houden</label>
+                    <input type="text" id="addReason" placeholder="Zeldzame NL persing, Collector item..." class="w-full bg-trance-900 border border-trance-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-trance-cyan">
+                </div>
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('addDealModal')" class="px-4 py-2 text-xs text-slate-400 hover:text-white">Annuleren</button>
+                    <button type="submit" class="bg-trance-cyan text-black font-orbitron font-bold px-4 py-2 rounded-xl text-xs hover:bg-cyan-300 transition">
+                        Opslaan in Radar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: INSTELLINGEN & ALERTS -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-trance-800 border border-trance-cyan/40 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('settingsModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="font-orbitron font-bold text-lg text-trance-cyan mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-sliders"></i>
+                Radar Instellingen & Alerts
+            </h3>
+            <div class="space-y-4 text-sm">
+                <div class="bg-trance-900 p-3 rounded-xl border border-trance-700/50">
+                    <label class="font-semibold text-slate-200 block mb-1">Geluidseffecten bij Radartreffer</label>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="text-xs text-slate-400">Speel synth-blip geluid af wanneer nieuwe vinyls gevonden worden.</span>
+                        <input type="checkbox" id="soundToggle" checked class="w-5 h-5 accent-trance-cyan cursor-pointer">
+                    </div>
+                </div>
+
+                <div class="bg-trance-900 p-3 rounded-xl border border-trance-700/50">
+                    <label class="font-semibold text-slate-200 block mb-1">Target Artiesten Trefwoorden</label>
+                    <p class="text-xs text-slate-400 mb-2">Gescheiden door komma's:</p>
+                    <textarea id="targetKeywords" rows="3" class="w-full bg-trance-800 border border-trance-700 rounded-lg p-2 text-xs text-trance-cyan focus:outline-none">Ferry Corsten, System F, Gouryella, Tiësto, Armin van Buuren, Rank 1, Push, Chicane, ATB, Energy 52, Paul van Dyk, OceanLab, Marco V</textarea>
+                </div>
+
+                <div class="bg-trance-900 p-3 rounded-xl border border-trance-700/50">
+                    <label class="font-semibold text-slate-200 block mb-1">Data Beheer</label>
+                    <div class="flex gap-2 mt-2">
+                        <button onclick="resetDataToDefault()" class="bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold">
+                            Reset naar Standaard Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button onclick="saveSettings()" class="bg-trance-cyan text-black font-orbitron font-bold px-4 py-2 rounded-xl text-xs hover:bg-cyan-300">
+                    Instellingen Opslaan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: 24/7 CLOUD HOSTING HANDLEIDING (RENDER) -->
+    <div id="renderGuideModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-trance-800 border border-trance-pink/50 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('renderGuideModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-trance-pink/20 border border-trance-pink text-trance-pink flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <div>
+                    <h3 class="font-orbitron font-bold text-lg text-trance-pink">24/7 Gratis Online Zet Gids (Render.com)</h3>
+                    <p class="text-xs text-slate-400">Host je eigen Trance Radar gratis in de cloud voor telefoon & PC toegang</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <div class="bg-trance-900 p-4 rounded-xl border border-trance-700/60 space-y-2">
+                    <h4 class="font-bold text-trance-cyan text-sm">Stap 1: Bewaar dit HTML-bestand</h4>
+                    <p>Sla deze pagina op je computer of telefoon op als <code class="bg-black text-trance-cyan px-1.5 py-0.5 rounded">index.html</code>.</p>
+                </div>
+
+                <div class="bg-trance-900 p-4 rounded-xl border border-trance-700/60 space-y-2">
+                    <h4 class="font-bold text-trance-cyan text-sm">Stap 2: Gratis account op GitHub of Render</h4>
+                    <p>1. Maak een gratis account op <strong>GitHub.com</strong> en maak een nieuw (privé) repository aan.</p>
+                    <p>2. Upload het bestand <code class="bg-black text-trance-cyan px-1.5 py-0.5 rounded">index.html</code> hierin.</p>
+                </div>
+
+                <div class="bg-trance-900 p-4 rounded-xl border border-trance-700/60 space-y-2">
+                    <h4 class="font-bold text-trance-cyan text-sm">Stap 3: Koppelen aan Render Static Site</h4>
+                    <p>1. Ga naar <strong>Render.com</strong> en klik op <em>New +</em> &rarr; <em>Static Site</em>.</p>
+                    <p>2. Selecteer je GitHub repository.</p>
+                    <p>3. Render geeft je direct een unieke webadres (bijv. <code class="bg-black text-emerald-400 px-1.5 py-0.5 rounded">https://trance-vinyl-radar.onrender.com</code>).</p>
+                </div>
+
+                <div class="p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs">
+                    💡 <strong>Tip:</strong> Sla die link op als snelkoppeling op het startscherm van je iPhone of Android. De radar werkt dan exact als een native app!
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeModal('renderGuideModal')" class="bg-trance-700 hover:bg-trance-600 text-white font-medium px-4 py-2 rounded-xl text-xs">
+                    Begrepen!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // --- INITIAL MOCK / SEED DATA ---
+        const INITIAL_LISTINGS = [
+            {
+                id: "mp_101",
+                title: "System F - Out Of The Blue (12 inch Vinyl 1999)",
+                artist: "Ferry Corsten",
+                price: 14.50,
+                platform: "Marktplaats",
+                year: 1999,
+                url: "https://www.marktplaats.nl",
+                reason: "⚡ Zeldzame originele NL persing op Tsunami label. Zonder krassen!",
+                dateFound: "Vandaag 14:20",
+                isFavorite: true,
+                condition: "EX"
+            },
+            {
+                id: "disc_202",
+                title: "Gouryella - Gouryella (Code Blue Records)",
+                artist: "Gouryella",
+                price: 19.99,
+                platform: "Discogs",
+                year: 1999,
+                url: "https://www.discogs.com",
+                reason: "🔥 Legendariese Ferry Corsten & Tiësto samenwerking. Onder €20 is een directe koop!",
+                dateFound: "Vandaag 11:05",
+                isFavorite: false,
+                condition: "VG+"
+            },
+            {
+                id: "ebay_303",
+                title: "Push - Universal Nation (Bonzai Trance Progressive)",
+                artist: "Push",
+                price: 22.00,
+                platform: "eBay",
+                year: 1998,
+                url: "https://www.ebay.com",
+                reason: "💎 De absolute Belgische trance anthem. Heel gewild verzamelobject.",
+                dateFound: "Gisteren",
+                isFavorite: true,
+                condition: "M"
+            },
+            {
+                id: "vinted_404",
+                title: "Rank 1 - Airwave (Original 12 inch Single)",
+                artist: "Rank 1",
+                price: 12.50,
+                platform: "Vinted",
+                year: 1999,
+                url: "https://www.vinted.nl",
+                reason: "🏷️ Snoepje van de dag! Normaliter €30+ op Discogs Marketplace.",
+                dateFound: "Vandaag 09:15",
+                isFavorite: false,
+                condition: "EX"
+            },
+            {
+                id: "mp_505",
+                title: "Energy 52 - Cafe Del Mar (Three 'N One Remix)",
+                artist: "Energy 52",
+                price: 24.00,
+                platform: "Marktplaats",
+                year: 1997,
+                url: "https://www.marktplaats.nl",
+                reason: "👑 Welhaast de grootste trance klassieker aller tijden. Originele Hooj Choons persing.",
+                dateFound: "Vandaag 15:02",
+                isFavorite: false,
+                condition: "VG+"
+            },
+            {
+                id: "cat_606",
+                title: "Armin van Buuren - Communication (Cyber Records)",
+                artist: "Armin van Buuren",
+                price: 18.00,
+                platform: "Catawiki",
+                year: 1999,
+                url: "https://www.catawiki.com",
+                reason: "🚀 Vroege doorbraaksingle van Armin. Waarde stijgt jaarlijks gestaag.",
+                dateFound: "Gisteren",
+                isFavorite: false,
+                condition: "EX"
+            },
+            {
+                id: "plat_707",
+                title: "Chicane - Offshore (Modena Records UK 1996)",
+                artist: "Chicane",
+                price: 16.50,
+                platform: "Platenzaak",
+                year: 1996,
+                url: "https://www.discogs.com",
+                reason: "🌅 Balearic Trance icoon. Afkomstig uit particuliere verzameling.",
+                dateFound: "2 dagen geleden",
+                isFavorite: false,
+                condition: "VG"
+            },
+            {
+                id: "mp_808",
+                title: "ATB - 9 PM (Till I Come) 12 Inch Promo",
+                artist: "ATB",
+                price: 9.99,
+                platform: "Marktplaats",
+                year: 1998,
+                url: "https://www.marktplaats.nl",
+                reason: "💥 Super voordelig! Iconische pitch-guitar riff.",
+                dateFound: "Vandaag 13:40",
+                isFavorite: false,
+                condition: "VG+"
+            },
+            {
+                id: "ebay_909",
+                title: "Paul van Dyk - For An Angel (E-Werk Club Mix)",
+                artist: "Paul van Dyk",
+                price: 21.50,
+                platform: "eBay",
+                year: 1998,
+                url: "https://www.ebay.com",
+                reason: "⭐️ De ultieme Berlijnse trance sound op Deviant Records.",
+                dateFound: "3 dagen geleden",
+                isFavorite: false,
+                condition: "EX"
+            },
+            {
+                id: "disc_1010",
+                title: "OceanLab - Satellite (Anjunabeats 2004)",
+                artist: "OceanLab",
+                price: 24.99,
+                platform: "Discogs",
+                year: 2004,
+                url: "https://www.discogs.com",
+                reason: "✨ Above & Beyond meesterwerk met Justine Suissa vocalen.",
+                dateFound: "Vandaag 08:00",
+                isFavorite: true,
+                condition: "M"
+            }
+        ];
+
+        // POOL OF RADAR SCAN GENERATED ITEMS FOR REALISTIC SIMULATION
+        const RADAR_POOL = [
+            {
+                title: "Tiësto - Flight 643 (Magik Muzik Original Press)",
+                artist: "Tiësto",
+                price: 17.50,
+                platform: "Marktplaats",
+                year: 2001,
+                reason: "🔥 Eerste Magik Muzik release! Heel gewild onder dj's.",
+                condition: "EX"
+            },
+            {
+                title: "Ferry Corsten - Punk (Tsunami 12 inch 2002)",
+                artist: "Ferry Corsten",
+                price: 15.00,
+                platform: "Vinted",
+                year: 2002,
+                reason: "⚡ Elektro-trance crossover van meester Ferry Corsten.",
+                condition: "VG+"
+            },
+            {
+                title: "Veracocha - Carte Blanche (Positiva UK 1999)",
+                artist: "Ferry Corsten",
+                price: 13.00,
+                platform: "Marktplaats",
+                year: 1999,
+                reason: "💎 Ferry Corsten & Vincent de Moor klassieker op Positiva.",
+                condition: "EX"
+            },
+            {
+                title: "Cygnus X - The Orange Theme (Moon Lite 1999)",
+                artist: "Cygnus X",
+                price: 19.50,
+                platform: "Discogs",
+                year: 1999,
+                reason: "🍊 Onweerstaanbare rave trance climax anthem.",
+                condition: "M"
+            }
+        ];
+
+        // --- STATE MANAGEMENT ---
+        let listings = [];
+        let favOnlyFilter = false;
+        let selectedArtistFilter = '';
+
+        // --- APP INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadListings();
+            updateStats();
+            applyFilters();
+        });
+
+        // Load Data from LocalStorage or Default
+        function loadListings() {
+            const stored = localStorage.getItem('trance_radar_listings');
+            if (stored) {
+                try {
+                    listings = JSON.parse(stored);
+                } catch(e) {
+                    listings = [...INITIAL_LISTINGS];
+                }
+            } else {
+                listings = [...INITIAL_LISTINGS];
+                saveListings();
+            }
+        }
+
+        function saveListings() {
+            localStorage.setItem('trance_radar_listings', JSON.stringify(listings));
+        }
+
+        // --- SOUND SYNTHESIZER (Web Audio API) ---
+        function playRadarBeep() {
+            const soundOn = document.getElementById('soundToggle')?.checked;
+            if (!soundOn) return;
+
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Synth Oscillator 1 (Cyan Blip)
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+                osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.15); // A6
+
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } catch(e) {
+                // Audio Context fallback silent
+            }
+        }
+
+        // --- RADAR SCAN SIMULATION ---
+        function triggerRadarScan() {
+            const overlay = document.getElementById('scanOverlay');
+            const statusText = document.getElementById('scanStatusText');
+            overlay.classList.remove('hidden');
+
+            const steps = [
+                "Verbinding maken met Marktplaats LRP API...",
+                "Discogs Marketplace listings scannen (ships from NL/EU)...",
+                "eBay & Catawiki veilingen doorzoeken op Trance Vinyl...",
+                "Analyseren van prijzen en staat (onder €25 filter active)..."
+            ];
+
+            let stepIdx = 0;
+            const interval = setInterval(() => {
+                stepIdx++;
+                if (stepIdx < steps.length) {
+                    statusText.innerText = steps[stepIdx];
+                } else {
+                    clearInterval(interval);
+                    finishScan();
+                }
+            }, 500);
+        }
+
+        function finishScan() {
+            document.getElementById('scanOverlay').classList.add('hidden');
+            playRadarBeep();
+
+            // Pick a random bargain item from pool
+            if (RADAR_POOL.length > 0) {
+                const newItem = { ...RADAR_POOL[Math.floor(Math.random() * RADAR_POOL.length)] };
+                newItem.id = 'scan_' + Date.now();
+                newItem.url = newItem.platform === 'Marktplaats' ? 'https://www.marktplaats.nl' : 'https://www.discogs.com';
+                newItem.dateFound = 'Zojuist ontdekt!';
+                newItem.isFavorite = false;
+
+                // Add to start of array
+                listings.unshift(newItem);
+                saveListings();
+                
+                showToast(`⚡ NIEUWE PAREL: "${newItem.title}" (€${newItem.price.toFixed(2)})!`, 'success');
+            } else {
+                showToast("Radar scan afgerond. Alle actieve bronnen zijn up-to-date!", "info");
+            }
+
+            document.getElementById('statLastScan').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            updateStats();
+            applyFilters();
+        }
+
+        // --- RENDER GRID & CARDS ---
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const platform = document.getElementById('platformFilter').value;
+            const era = document.getElementById('eraFilter').value;
+            const maxPrice = parseFloat(document.getElementById('priceRange').value);
+
+            const filtered = listings.filter(item => {
+                // Search term
+                const matchSearch = item.title.toLowerCase().includes(search) || 
+                                    item.artist.toLowerCase().includes(search) || 
+                                    item.reason.toLowerCase().includes(search);
+
+                // Platform
+                const matchPlatform = platform === 'ALL' || item.platform === platform;
+
+                // Price
+                const matchPrice = item.price <= maxPrice;
+
+                // Favorites
+                const matchFav = !favOnlyFilter || item.isFavorite;
+
+                // Quick Artist Chip filter
+                const matchArtistChip = !selectedArtistFilter || item.artist.toLowerCase().includes(selectedArtistFilter.toLowerCase()) || item.title.toLowerCase().includes(selectedArtistFilter.toLowerCase());
+
+                // Era Filter
+                let matchEra = true;
+                if (era === '90s') matchEra = item.year >= 1990 && item.year <= 1999;
+                if (era === '00s') matchEra = item.year >= 2000 && item.year <= 2009;
+
+                return matchSearch && matchPlatform && matchPrice && matchFav && matchArtistChip && matchEra;
+            });
+
+            renderGrid(filtered);
+            updateStats();
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('listingsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const resultCount = document.getElementById('resultCount');
+
+            grid.innerHTML = '';
+            resultCount.innerText = `${items.length} resultaten`;
+
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-trance-800/90 border border-trance-700/80 hover:border-trance-cyan/50 rounded-2xl p-5 shadow-lg flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-neon-cyan/20 relative group";
+
+                // Platform Badge Styling & Icon
+                let platformBadge = "bg-slate-700 text-slate-300";
+                if (item.platform === 'Marktplaats') platformBadge = "bg-orange-500/20 text-orange-400 border border-orange-500/30";
+                if (item.platform === 'Discogs') platformBadge = "bg-slate-900 text-slate-100 border border-slate-700";
+                if (item.platform === 'eBay') platformBadge = "bg-blue-500/20 text-blue-400 border border-blue-500/30";
+                if (item.platform === 'Vinted') platformBadge = "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+                if (item.platform === 'Catawiki') platformBadge = "bg-purple-500/20 text-purple-300 border border-purple-500/30";
+                if (item.platform === 'Platenzaak') platformBadge = "bg-trance-pink/20 text-trance-pink border border-trance-pink/30";
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Header Bar inside Card -->
+                        <div class="flex items-center justify-between mb-3 gap-2">
+                            <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${platformBadge}">
+                                ${item.platform}
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-orbitron text-slate-400 bg-trance-900 px-2 py-0.5 rounded border border-trance-700/50">
+                                    ${item.year ? item.year : 'Classic'}
+                                </span>
+                                <span class="text-[10px] text-slate-500">${item.dateFound}</span>
+                            </div>
+                        </div>
+
+                        <!-- Title & Artist -->
+                        <h3 class="font-bold text-base text-white mb-1 group-hover:text-trance-cyan transition-colors line-clamp-2">
+                            ${item.title}
+                        </h3>
+                        <p class="text-xs text-trance-pink font-medium mb-3 flex items-center gap-1">
+                            <i class="fa-solid fa-user-ninja"></i>
+                            ${item.artist}
+                        </p>
+
+                        <!-- Reason / Collector Value Badge -->
+                        <div class="bg-trance-900/80 p-2.5 rounded-xl border border-trance-700/50 text-xs text-slate-300 mb-4 leading-relaxed">
+                            <p>${item.reason}</p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Pricing & Action Row -->
+                    <div class="pt-3 border-t border-trance-700/60 flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Vraagprijs</span>
+                            <span class="font-orbitron font-extrabold text-xl text-emerald-400">
+                                €${item.price.toFixed(2)}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <!-- Favorite Star Button -->
+                            <button onclick="toggleFavorite('${item.id}')" class="p-2 rounded-xl border ${item.isFavorite ? 'bg-amber-500/20 border-amber-500 text-trance-gold' : 'bg-trance-900 border-trance-700 text-slate-400 hover:text-white'} transition">
+                                <i class="${item.isFavorite ? 'fa-solid' : 'fa-regular'} fa-star text-sm"></i>
+                            </button>
+
+                            <!-- Direct Link Button -->
+                            <a href="${item.url}" target="_blank" class="bg-trance-cyan hover:bg-cyan-300 text-black font-orbitron font-bold text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1 shadow-neon-cyan">
+                                <span>BEKIJK</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- STATS UPDATE ---
+        function updateStats() {
+            document.getElementById('statTotal').innerText = listings.length;
+            
+            const favs = listings.filter(i => i.isFavorite).length;
+            document.getElementById('statFavs').innerText = favs;
+
+            if (listings.length > 0) {
+                const avg = listings.reduce((acc, curr) => acc + curr.price, 0) / listings.length;
+                document.getElementById('statAvgPrice').innerText = `€${avg.toFixed(2)}`;
+            } else {
+                document.getElementById('statAvgPrice').innerText = `€0,00`;
+            }
+        }
+
+        // --- ACTIONS & FAVORITES ---
+        function toggleFavorite(id) {
+            const item = listings.find(i => i.id === id);
+            if (item) {
+                item.isFavorite = !item.isFavorite;
+                saveListings();
+                applyFilters();
+                showToast(item.isFavorite ? '⭐ Bewaard in Favorieten!' : 'Verwijderd uit Favorieten', 'info');
+            }
+        }
+
+        function toggleFavFilter() {
+            favOnlyFilter = !favOnlyFilter;
+            const btn = document.getElementById('favFilterBtn');
+            const icon = document.getElementById('favFilterIcon');
+
+            if (favOnlyFilter) {
+                btn.classList.add('border-trance-gold', 'bg-amber-500/10', 'text-trance-gold');
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                btn.classList.remove('border-trance-gold', 'bg-amber-500/10', 'text-trance-gold');
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+            applyFilters();
+        }
+
+        function filterByArtist(artist) {
+            selectedArtistFilter = artist;
+            applyFilters();
+        }
+
+        function updatePriceLabel(val) {
+            document.getElementById('priceValue').innerText = `€${val}`;
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('platformFilter').value = 'ALL';
+            document.getElementById('eraFilter').value = 'ALL';
+            document.getElementById('priceRange').value = 25;
+            updatePriceLabel(25);
+            selectedArtistFilter = '';
+            favOnlyFilter = false;
+            applyFilters();
+        }
+
+        // --- MANUAL DEAL ADDER ---
+        function handleManualAdd(e) {
+            e.preventDefault();
+            const title = document.getElementById('addTitle').value;
+            const artist = document.getElementById('addArtist').value;
+            const price = parseFloat(document.getElementById('addPrice').value);
+            const platform = document.getElementById('addPlatform').value;
+            const year = parseInt(document.getElementById('addYear').value) || 1999;
+            const url = document.getElementById('addUrl').value;
+            const reason = document.getElementById('addReason').value || '⚡ Handmatig toegevoegde parel.';
+
+            const newDeal = {
+                id: 'manual_' + Date.now(),
+                title,
+                artist,
+                price,
+                platform,
+                year,
+                url,
+                reason,
+                dateFound: 'Zojuist',
+                isFavorite: true,
+                condition: 'EX'
+            };
+
+            listings.unshift(newDeal);
+            saveListings();
+            closeModal('addDealModal');
+            document.getElementById('addDealForm').reset();
+            applyFilters();
+            showToast(' Deal succesvol toegevoegd & bewaard!', 'success');
+        }
+
+        function resetDataToDefault() {
+            listings = [...INITIAL_LISTINGS];
+            saveListings();
+            applyFilters();
+            closeModal('settingsModal');
+            showToast('Data hersteld naar standaard set.', 'info');
+        }
+
+        function saveSettings() {
+            closeModal('settingsModal');
+            showToast('Instellingen opgeslagen!', 'success');
+        }
+
+        // --- MODAL CONTROLLERS ---
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // --- TOAST NOTIFICATIONS ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border text-xs font-semibold shadow-2xl transition-all duration-300 transform translate-y-5 opacity-0 ${
+                type === 'success' ? 'bg-emerald-950 border-emerald-500/50 text-emerald-300' : 'bg-trance-800 border-trance-cyan/50 text-trance-cyan'
+            }`;
+            
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-trance-cyan'} text-base"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
